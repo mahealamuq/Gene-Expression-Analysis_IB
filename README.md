@@ -53,6 +53,149 @@ The transcriptome is the complete set of RNA transcripts produced inside a cell 
 
 It includes:
 
+## Types of RNA
 
+| RNA Type | Description |
+|-----------|-------------|
+| **mRNA (Messenger RNA)** | Carries genetic information from DNA to ribosomes for protein synthesis. |
+| **rRNA (Ribosomal RNA)** | Structural and functional component of ribosomes involved in protein synthesis. |
+| **tRNA (Transfer RNA)** | Transfers amino acids to ribosomes during protein synthesis. |
+| **lncRNA (Long Non-coding RNA)** | Long RNA molecules that do not code for proteins but regulate gene expression and cellular processes. |
+| **microRNA (miRNA)** | Small non-coding RNA molecules involved in post-transcriptional gene regulation by targeting mRNA. |
+
+Different cells can have the same genome but different transcriptomes
+
+For example:
+
+Neuron cell ≠ Muscle cell ≠ Stem cell
+
+
+Even though they share almost the same DNA, they express different genes.
+
+---
+
+## 3. Why Study RNA?
+
+RNA gives information about gene activity.
+
+A gene may exist in DNA, but it may not always be active. If a cell needs a gene, it produces RNA copies of that gene.
+
+More RNA copies usually mean higher gene expression.
+
+Example
+
+High mRNA count = gene is highly active
+Low mRNA count = gene is weakly active
+No mRNA count = gene may be inactive
+
+---
+
+## 4. Gene Expression Data Type
+
+Gene expression data is usually count-based or continuous.
+
+Example
+
+Gene A = 500 reads
+Gene B = 20 reads
+Gene C = 0 reads
+
+This is different from DNA variant data, which is often categorical.
+
+Example
+
+Wild type / mutant
+Homozygous / heterozygous
+Present / absent
+
+Because gene expression data is numerical, it requires statistical analysis.
+
+## 5. Technologies for Measuring Gene Expression
+
+### 5.1 Low-throughput Methods
+
+
+These measure one or a few genes at a 
+time
+
+RNA Detection and Expression Analysis Methods
+
+| Method | Purpose |
+|----------|---------|
+| **Northern Blot** | Detects specific RNA molecules and provides information about RNA size and abundance. |
+| **qRT-PCR (Quantitative Reverse Transcription PCR)** | Measures the expression levels of selected genes with high sensitivity and accuracy. |
+| **PCR-based Methods** | Amplify and detect RNA-derived complementary DNA (cDNA) for gene expression analysis and transcript identification. |                
+
+### 5.2 High-throughput Methods
+
+These measure many genes at once.
+
+RNA Analysis Technologies
+
+| Technology | Scale |
+|------------|-------|
+| **Microarray** | Measures the expression of thousands of genes simultaneously. |
+| **RNA-seq** | Profiles the entire transcriptome, including known and novel transcripts. |
+| **CAGE (Cap Analysis of Gene Expression)** | Identifies and quantifies transcription start sites (TSSs). |
+| **10X Chromium** | Enables high-throughput single-cell RNA sequencing (scRNA-seq). |
+| **Fluidigm** | Analyzes the expression of hundreds of genes, often at the single-cell level. |. 
+
+---
+
+## 6. Microarray Technology
+
+Microarrays measure gene expression using probes fixed on a chip.
+
+**Basic Workflow**
+
+Extract RNA
+↓
+Convert RNA to cDNA
+↓
+Hybridize cDNA to microarray chip
+↓
+Scan fluorescent signal
+↓
+Measure gene expression
+
+
+**Microarray Pre-processing**
+
+Raw data
+↓
+Background correction
+↓
+Normalization
+↓
+Transformation
+↓
+Analysis
+
+**Common R/Bioconductor packages:**
+
+affy
+oligo
+lumi
+limma
+
+## 7. RNA-seq Technology
+
+RNA-seq uses sequencing to measure RNA molecules.
+
+**Basic Workflow**
+
+Extract RNA
+↓
+Fragment RNA
+↓
+Convert RNA to cDNA
+↓
+Sequence reads
+↓
+Map reads to genome/transcriptome
+↓
+Count reads per gene
+↓
+Perform statistical analysis
 
 
