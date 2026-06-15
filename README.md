@@ -210,4 +210,82 @@ Count reads per gene
 ↓
 Perform statistical analysis
 ```
+RNA-seq can detect:
+
+- Differential gene expression
+- Isoform abundance
+- Non-coding RNA
+- RNA editing
+- Alternative splicing
+- SNPs in transcripts
+
+## 8. RNA-seq Analysis Pipeline
+
+```
+Raw FASTQ files
+↓
+Quality control
+↓
+Read trimming
+↓
+Genome alignment
+↓
+Feature counting
+↓
+Normalization
+↓
+Differential expression analysis
+↓
+Visualization
+↓
+Pathway analysis
+```
+Common tools:
+
+| Step                    | Tool                      |
+| ----------------------- | ------------------------- |
+| Quality control         | FastQC                    |
+| Trimming                | Trim Galore / Cutadapt    |
+| Alignment               | STAR / HISAT2             |
+| Counting                | featureCounts / HTSeq     |
+| Differential expression | DESeq2 / edgeR / limma    |
+| Visualization           | ggplot2 / pheatmap        |
+| Pathway analysis        | clusterProfiler / enrichR |
+
+---
+
+## 9. RNA-seq vs Microarray
+
+| Feature                    | RNA-seq             | Microarray |
+| -------------------------- | ------------------- | ---------- |
+| Prior genome knowledge     | Not always required | Required   |
+| Dynamic range              | High                | Lower      |
+| Novel transcript detection | Yes                 | No         |
+| Cost                       | Higher              | Lower      |
+| Sensitivity                | High                | Moderate   |
+| Data size                  | Large               | Smaller    |
+
+RNA-seq is now widely used because it gives more detailed transcriptome information.
+
+## 10. Differential Gene Expression Analysis
+
+Differential expression analysis identifies genes that show different expression between conditions.
+
+Example:
+
+```
+Control group vs Disease group
+Normal tissue vs Cancer tissue
+Treated cells vs Untreated cells
+```
+**Important values**
+
+| Term               | Meaning                                       |
+| ------------------ | --------------------------------------------- |
+| log2 fold change   | Direction and size of expression change       |
+| p-value            | Statistical significance                      |
+| adjusted p-value   | Corrected significance after multiple testing |
+| upregulated gene   | Higher expression in test condition           |
+| downregulated gene | Lower expression in test condition            |
+
 
