@@ -288,4 +288,39 @@ Treated cells vs Untreated cells
 | upregulated gene   | Higher expression in test condition           |
 | downregulated gene | Lower expression in test condition            |
 
+---
 
+# 11. Example DESeq2 Workflow in R
+```r
+# Load library
+library(DESeq2)
+
+# Read count matrix
+counts <- read.table( "gene_counts.txt", header = TRUE, row.names = 1, skip = 1)
+
+# Create sample information
+sample_info <- data.frame(
+  condition = factor(c("Control", "Control", "Disease", "Disease")),
+  row.names = colnames(counts)
+)
+
+# Create DESeq2 object
+dds <- DESeqDataSetFromMatrix(
+  countData = counts,
+  colData = sample_info,
+  design = ~ condition
+)
+
+# Run differential expression analysis
+dds <- DESeq(dds)
+
+# Extract results
+res <- results(dds, contrast = c("condition", "Disease", "Control"))
+
+# Sort by adjusted p-value
+res_sorted <- res[order(res$padj), ]
+
+# Save results
+write.csv(as.data.frame(res_sorted), "results/DE_results.csv")
+
+```
