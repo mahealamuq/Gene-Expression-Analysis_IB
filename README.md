@@ -83,10 +83,11 @@ A gene may exist in DNA, but it may not always be active. If a cell needs a gene
 More RNA copies usually mean higher gene expression.
 
 Example
-
+```text
 High mRNA count = gene is highly active
 Low mRNA count = gene is weakly active
 No mRNA count = gene may be inactive
+```
 
 ---
 
@@ -96,17 +97,21 @@ Gene expression data is usually count-based or continuous.
 
 Example
 
+```
 Gene A = 500 reads
 Gene B = 20 reads
 Gene C = 0 reads
+```
 
 This is different from DNA variant data, which is often categorical.
 
 Example
 
+```
 Wild type / mutant
 Homozygous / heterozygous
 Present / absent
+```
 
 Because gene expression data is numerical, it requires statistical analysis.
 
@@ -148,6 +153,7 @@ Microarrays measure gene expression using probes fixed on a chip.
 
 **Basic Workflow**
 
+```
 Extract RNA
 ↓
 Convert RNA to cDNA
@@ -157,10 +163,12 @@ Hybridize cDNA to microarray chip
 Scan fluorescent signal
 ↓
 Measure gene expression
+```
 
 
 **Microarray Pre-processing**
 
+```
 Raw data
 ↓
 Background correction
@@ -170,13 +178,16 @@ Normalization
 Transformation
 ↓
 Analysis
+```
 
 **Common R/Bioconductor packages:**
 
+```
 affy
 oligo
 lumi
 limma
+```
 
 ## 7. RNA-seq Technology
 
@@ -184,6 +195,7 @@ RNA-seq uses sequencing to measure RNA molecules.
 
 **Basic Workflow**
 
+```
 Extract RNA
 ↓
 Fragment RNA
@@ -197,5 +209,5 @@ Map reads to genome/transcriptome
 Count reads per gene
 ↓
 Perform statistical analysis
-
+```
 
