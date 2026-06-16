@@ -427,6 +427,34 @@ ggplot(
 ```
 
 
+## 12. Volcano Plot
+
+A volcano plot shows both expression change and statistical significance.
+
+```
+X-axis = log2 fold change
+Y-axis = -log10 p-value
+```
+
+<img width="1546" height="801" alt="image" src="https://github.com/user-attachments/assets/361fcbb3-90e8-4476-aa3e-3df04d1a8f87" />
+
+
+Genes on the far right are strongly upregulated.
+
+Genes on the far left are strongly downregulated.
+
+Genes at the top are statistically significant.
+
+---
+
+
+## 13. Heatmap and Clustering
+
+Heatmaps help visualize expression patterns across genes and samples.
+
+Genes with similar expression patterns cluster together.
+
+
 ```r
 # Load heatmap package
 library(pheatmap)
@@ -461,3 +489,137 @@ pheatmap(
   main = "Top Differentially Expressed Genes"
 )
 ```
+
+<img width="1530" height="995" alt="image" src="https://github.com/user-attachments/assets/397f0ed7-e0a7-4325-ab2c-8b9ca8184152" />
+
+---
+
+## 14. Clustering in Gene Expression Analysis
+
+Clustering is used to group genes or samples based on similar expression profiles.
+
+| Method                  | Description                                    |
+| ----------------------- | ---------------------------------------------- |
+| Hierarchical clustering | Builds a tree-like dendrogram                  |
+| K-means clustering      | Groups genes into a fixed number of clusters   |
+| PCA                     | Reduces dimensions and shows sample separation |
+
+---
+
+## 15. Pathway and Ontology Analysis
+
+After finding differentially expressed genes, we need to understand what they do.
+
+**Pathway analysis helps answer:**
+
+```
+Which biological processes are affected?
+Which pathways are enriched?
+Are immune, cancer, metabolic, or inflammatory pathways involved?
+```
+
+**Common databases:**
+
+| Database      | Purpose                                                    |
+| ------------- | ---------------------------------------------------------- |
+| KEGG          | Biological pathways                                        |
+| Reactome      | Curated pathways                                           |
+| Gene Ontology | Biological process, molecular function, cellular component |
+| MSigDB        | Gene set collections                                       |
+
+---
+
+## 16. Fisher’s Exact Test for Enrichment
+
+Fisher’s Exact Test checks whether a gene list is enriched for a pathway.
+
+Example question:
+
+```
+Are differentially expressed genes enriched in the NF-kB pathway?
+```
+**R Example**
+
+```r
+# Example contingency table
+tab <- matrix(c(70, 30, 80, 40), nrow = 2)
+
+# Fisher's Exact Test
+fish_res <- fisher.test(tab, alternative = "greater")
+
+# Show p-value
+fish_res$p.value
+```
+
+---
+
+## 17. Gene Ontology Categories
+
+Gene Ontology has three main categories:
+
+| GO Category        | Meaning                                         |
+| ------------------ | ----------------------------------------------- |
+| Biological Process | What biological process the gene is involved in |
+| Molecular Function | What molecular activity the gene performs       |
+| Cellular Component | Where the gene product is located               |
+
+
+Example:
+
+```
+Biological Process: immune response
+Molecular Function: DNA binding
+Cellular Component: nucleus
+```
+---
+
+## 18. Single-cell RNA-seq
+
+Single-cell RNA-seq measures gene expression in individual cells.
+
+Traditional RNA-seq measures the average expression from many cells.
+
+Single-cell RNA-seq shows cell-to-cell differences.
+
+Why it matters
+
+```
+Bulk RNA-seq = average expression
+Single-cell RNA-seq = expression in each individual cell
+```
+This is useful because tissues contain mixed cell populations.
+
+Example:
+
+```
+Tumour tissue may contain:
+- Cancer cells
+- Immune cells
+- Fibroblasts
+- Endothelial cells
+```
+Single-cell RNA-seq can separate these cell types.
+
+---
+
+## 19. Important Visual Outputs
+
+| Output           | Purpose                                  |
+| ---------------- | ---------------------------------------- |
+| PCA plot         | Shows sample separation                  |
+| Volcano plot     | Shows significant up/downregulated genes |
+| Heatmap          | Shows gene expression patterns           |
+| MA plot          | Shows fold change vs expression level    |
+| Pathway bar plot | Shows enriched biological pathways       |
+
+---
+
+## 20. Conclusion
+
+Gene expression analysis helps us understand how genes behave under different biological conditions.
+
+RNA-seq and microarrays are major technologies for measuring transcriptome-wide expression. RNA-seq is now more widely used because it provides high-resolution information about transcripts, isoforms, non-coding RNAs, and expression levels.
+
+The main analysis steps include quality control, alignment, counting, normalization, differential expression analysis, visualization, clustering, and pathway enrichment.
+
+This repository provides a structured guide for learning and applying gene expression analysis in bioinformatics.
