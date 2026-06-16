@@ -292,35 +292,172 @@ Treated cells vs Untreated cells
 
 # 11. Example DESeq2 Workflow in R
 ```r
-# Load library
+###########################################################
+# Gene Expression Analysis using DESeq2
+#
+# Workflow:
+# 1. Read featureCounts output
+# 2. Differential expression analysis with DESeq2
+# 3. Gene annotation using biomaRt
+# 4. Volcano plot visualization
+# 5. Heatmap of top differentially expressed genes
+#
+# Dataset:
+# Breast Cancer (MCF7) vs Normal samples
+###########################################################
+# Load required packages
 library(DESeq2)
+library(ggplot2)
 
-# Read count matrix
-counts <- read.table( "gene_counts.txt", header = TRUE, row.names = 1, skip = 1)
+# Read featureCounts output file
+# skip = 1 ignores the first summary line
+counts <- read.table(
+  "gene_counts.txt",
+  header = TRUE,
+  row.names = 1,
+  skip = 1
+)
 
-# Create sample information
-sample_info <- data.frame(
-  condition = factor(c("Control", "Control", "Disease", "Disease")),
+# Remove annotation columns and keep only count columns
+counts <- counts[, 6:ncol(counts)]
+
+# Create sample metadata
+# Two normal samples and two MCF7 cancer samples
+coldata <- data.frame(
+  condition = factor(c("normal", "normal", "MCF7", "MCF7")),
   row.names = colnames(counts)
 )
 
-# Create DESeq2 object
+# Create DESeq2 dataset object
 dds <- DESeqDataSetFromMatrix(
-  countData = counts,
-  colData = sample_info,
+  countData = round(counts),
+  colData = coldata,
   design = ~ condition
 )
 
 # Run differential expression analysis
 dds <- DESeq(dds)
 
-# Extract results
-res <- results(dds, contrast = c("condition", "Disease", "Control"))
+# Compare MCF7 against normal samples
+res <- results(
+  dds,
+  contrast = c("condition", "MCF7", "normal")
+)
 
-# Sort by adjusted p-value
-res_sorted <- res[order(res$padj), ]
+# Convert DESeq2 results to dataframe
+res_df <- as.data.frame(res)
 
-# Save results
-write.csv(as.data.frame(res_sorted), "results/DE_results.csv")
+# Store Ensembl gene IDs as a column
+res_df$Gene_id <- rownames(res_df)
 
+# Remove version numbers from Ensembl IDs
+# Example:
+# ENSG000001234.5 -> ENSG000001234
+res_df$Geneid_clean <- sub("\\..*", "", res_df$Gene_id)
+
+# Install biomaRt if needed
+# install.packages("biomaRt")
+
+# Load biomaRt package
+library(biomaRt)
+
+# Connect to Ensembl human gene database
+mart <- useMart(
+  "ensembl",
+  dataset = "hsapiens_gene_ensembl"
+)
+
+# Retrieve gene annotations
+gene_info <- getBM(
+  attributes = c(
+    "ensembl_gene_id",
+    "hgnc_symbol",
+    "external_gene_name",
+    "description"
+  ),
+  filters = "ensembl_gene_id",
+  values = res_df$Geneid_clean,
+  mart = mart
+)
+
+# Merge DESeq2 results with gene annotation
+res_annotated <- merge(
+  res_df,
+  gene_info,
+  by.x = "Geneid_clean",
+  by.y = "ensembl_gene_id",
+  all.x = TRUE
+)
+
+# Create labels for significant genes only
+# padj < 0.05
+# absolute log2FC > 1
+res_annotated$label <- ifelse(
+  res_annotated$padj < 0.05 &
+    abs(res_annotated$log2FoldChange) > 1,
+  res_annotated$hgnc_symbol,
+  NA
+)
+# Install ggrepel if needed
+# install.packages("ggrepel")
+
+# Load ggrepel for non-overlapping labels
+library(ggrepel)
+
+# Generate volcano plot
+ggplot(
+  res_annotated,
+  aes(
+    x = log2FoldChange,
+    y = -log10(pvalue)
+  )
+) +
+  geom_point(alpha = 0.5) +
+  geom_text_repel(
+    aes(label = label),
+    size = 3,
+    na.rm = TRUE
+  ) +
+  theme_minimal() +
+  xlab("Log2 Fold Change") +
+  ylab("-Log10 P-value") +
+  ggtitle("Volcano Plot with Gene Names")
+
+
+```
+
+
+```r
+# Load heatmap package
+library(pheatmap)
+
+# Sort genes by adjusted p-value
+res_sorted <- res_annotated[
+  order(res_annotated$padj),
+]
+
+# Select top 50 most significant genes
+top_genes <- res_sorted$Gene_id[1:50]
+
+# Corresponding gene symbols
+top_names <- res_sorted$hgnc_symbol[1:50]
+
+# Variance stabilizing transformation
+# Improves visualization and clustering
+vsd <- vst(dds)
+
+# Extract expression matrix for top genes
+heatmap_matrix <- assay(vsd)[top_genes, ]
+
+# Replace Ensembl IDs with gene symbols
+rownames(heatmap_matrix) <- top_names
+
+# Draw heatmap
+pheatmap(
+  heatmap_matrix,
+  scale = "row",
+  clustering_distance_rows = "euclidean",
+  clustering_distance_cols = "euclidean",
+  main = "Top Differentially Expressed Genes"
+)
 ```
