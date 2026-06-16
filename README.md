@@ -492,6 +492,13 @@ pheatmap(
 
 <img width="1530" height="995" alt="image" src="https://github.com/user-attachments/assets/397f0ed7-e0a7-4325-ab2c-8b9ca8184152" />
 
+
+**Heatmap Interpretation: Top Differentially Expressed Genes**
+
+This heatmap shows the 50 most significantly differentially expressed genes identified by your DESeq2 analysis between Normal breast cells and MCF7 breast cancer cells.
+
+**Figure: Heatmap of the top 50 differentially expressed genes identified by DESeq2 analysis. Rows represent genes and columns represent samples. Red indicates relatively high expression and blue indicates relatively low expression after variance stabilizing transformation and row scaling. Hierarchical clustering clearly separates normal breast samples from MCF7 breast cancer samples, demonstrating distinct transcriptional profiles between the two conditions.**
+
 ---
 
 ## 14. Clustering in Gene Expression Analysis
